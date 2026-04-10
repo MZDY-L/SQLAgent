@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>自动建表</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <h1>自动建表</h1>
+      <p class="desc">把 Coze 生成的 SQL 粘贴进来，点击按钮后自动写入 SQL Server。</p>
+
+      <section class="card">
+        <label for="sqlInput">SQL Server 建表脚本</label>
+        <textarea
+          id="sqlInput"
+          placeholder="把 Coze 生成的 SQL Server 建表脚本粘贴到这里。"
+        ></textarea>
+      </section>
+
+      <div class="actions">
+        <button id="executeButton" type="button">执行建表</button>
+        <button id="clearButton" type="button" class="secondary">清空</button>
+      </div>
+
+      <section class="card small">
+        <div class="status-line">
+          <span>服务状态：</span>
+          <strong id="statusText">检测中</strong>
+        </div>
+        <div class="status-line">
+          <span>执行结果：</span>
+          <strong id="resultStatus">未执行</strong>
+        </div>
+        <div class="status-line">
+          <span>执行语句数：</span>
+          <strong id="resultCount">0</strong>
+        </div>
+        <div class="status-line">
+          <span>新建表：</span>
+          <strong id="resultTables">-</strong>
+        </div>
+      </section>
+
+      <section class="card">
+        <label for="resultOutput">详细返回</label>
+        <textarea id="resultOutput" readonly placeholder="执行后这里会显示结果。"></textarea>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+# Dependencies
+backend/node_modules/
+
+# Environment files
+backend/.env
+
+# Local tool/runtime cache
+.tools/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+
+# Local document
+1.docx

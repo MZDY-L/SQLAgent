@@ -1,0 +1,25 @@
+{
+  "name": "auto-build-table",
+  "version": "1.0.0",
+  "description": "Simple local tool for creating SQL Server tables.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "check": "node --check server.js",
+    "test": "node run-tests.js"
+  },
+  "keywords": [
+    "coze",
+    "sql-server",
+    "express",
+    "schema"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mssql": "^11.0.1"
+  }
+}
