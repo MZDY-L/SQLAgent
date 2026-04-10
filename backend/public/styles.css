@@ -55,6 +55,10 @@ textarea {
   line-height: 1.5;
 }
 
+#requirementInput {
+  min-height: 100px;
+}
+
 #resultOutput {
   min-height: 120px;
 }
@@ -63,6 +67,12 @@ textarea {
   display: flex;
   gap: 12px;
   margin-bottom: 16px;
+}
+
+.actions.compact {
+  margin-top: 12px;
+  margin-bottom: 0;
+  align-items: center;
 }
 
 button {
@@ -86,6 +96,11 @@ button:disabled {
 
 .status-line {
   margin: 8px 0;
+}
+
+.hint {
+  color: #555;
+  font-size: 13px;
 }
 
 @media (max-width: 640px) {

@@ -9,17 +9,38 @@
   <body>
     <main class="page">
       <h1>自动建表</h1>
-      <p class="desc">把 Coze 生成的 SQL 粘贴进来，点击按钮后自动写入 SQL Server。</p>
+      <p class="desc">把 Coze 回复粘贴到工作台，先提取并预检 SQL，再确认执行写入 SQL Server。</p>
+
+      <section class="card">
+        <label for="requirementInput">需求描述（可选）</label>
+        <textarea
+          id="requirementInput"
+          placeholder="例如：生成用户表、订单表和索引，字段名使用 snake_case。"
+        ></textarea>
+      </section>
+
+      <section class="card">
+        <label for="cozeOutput">Coze 输出原文</label>
+        <textarea
+          id="cozeOutput"
+          placeholder="把 Coze 的完整回复粘贴到这里，支持带 ```sql``` 代码块的文本。"
+        ></textarea>
+        <div class="actions compact">
+          <button id="extractButton" type="button" class="secondary">提取 SQL</button>
+          <span id="parseStatus" class="hint">未提取</span>
+        </div>
+      </section>
 
       <section class="card">
         <label for="sqlInput">SQL Server 建表脚本</label>
         <textarea
           id="sqlInput"
-          placeholder="把 Coze 生成的 SQL Server 建表脚本粘贴到这里。"
+          placeholder="提取后的 SQL 会出现在这里，你也可以手动编辑。"
         ></textarea>
       </section>
 
       <div class="actions">
+        <button id="previewButton" type="button" class="secondary">预检 SQL</button>
         <button id="executeButton" type="button">执行建表</button>
         <button id="clearButton" type="button" class="secondary">清空</button>
       </div>
@@ -34,12 +55,20 @@
           <strong id="resultStatus">未执行</strong>
         </div>
         <div class="status-line">
+          <span>处理阶段：</span>
+          <strong id="resultMode">-</strong>
+        </div>
+        <div class="status-line">
           <span>执行语句数：</span>
           <strong id="resultCount">0</strong>
         </div>
         <div class="status-line">
           <span>新建表：</span>
           <strong id="resultTables">-</strong>
+        </div>
+        <div class="status-line">
+          <span>数据库可执行：</span>
+          <strong id="resultDbReady">-</strong>
         </div>
       </section>
 

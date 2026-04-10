@@ -73,6 +73,16 @@ function sendError(res, message, status = 400) {
   });
 }
 
+function buildSchemaPlan(sqlText) {
+  const batches = guardSql(String(sqlText));
+  const createdTables = extractCreatedTables(batches);
+
+  return {
+    batches,
+    createdTables
+  };
+}
+
 app.get("/health", async (_req, res) => {
   if (startupError || !db?.connected) {
     return res.status(503).json({
@@ -113,14 +123,14 @@ app.post("/execute-schema", async (req, res) => {
     return sendError(res, "sql cannot be empty.");
   }
 
-  let batches;
+  let schemaPlan;
   try {
-    batches = guardSql(String(sqlText));
+    schemaPlan = buildSchemaPlan(sqlText);
   } catch (error) {
     return sendError(res, error.message);
   }
 
-  const createdTables = extractCreatedTables(batches);
+  const { batches, createdTables } = schemaPlan;
 
   try {
     for (const batch of batches) {
@@ -131,15 +141,40 @@ app.post("/execute-schema", async (req, res) => {
       success: true,
       executedStatements: batches.length,
       createdTables,
-      errorMessage: null
+      errorMessage: null,
+      mode: "execute"
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       executedStatements: 0,
       createdTables,
-      errorMessage: error.message
+      errorMessage: error.message,
+      mode: "execute"
     });
+  }
+});
+
+app.post("/preview-schema", (req, res) => {
+  const { sql: sqlText } = req.body || {};
+
+  if (!sqlText || !String(sqlText).trim()) {
+    return sendError(res, "sql cannot be empty.");
+  }
+
+  try {
+    const { batches, createdTables } = buildSchemaPlan(sqlText);
+
+    return res.json({
+      success: true,
+      executedStatements: batches.length,
+      createdTables,
+      errorMessage: null,
+      mode: "preview",
+      dbReady: !startupError && Boolean(db?.connected)
+    });
+  } catch (error) {
+    return sendError(res, error.message);
   }
 });
 
